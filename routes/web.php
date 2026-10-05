@@ -41,3 +41,7 @@ Route::get('/matakuliah/edit/{kode}', [MatakuliahController::class, 'edit']);
 Route::put('/matakuliah/{kode}', [MatakuliahController::class, 'update']);
 
 Route::delete('/matakuliah/{kode}', [MatakuliahController::class, 'destroy']);
+
+Route::get('/admin', function () {
+    return view('admin.dashboard');
+});
