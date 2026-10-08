@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PelangganController;
+use App\Http\Controllers\PaketCateringController;
+use App\Http\Controllers\MenuMakananController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -45,3 +48,11 @@ Route::delete('/matakuliah/{kode}', [MatakuliahController::class, 'destroy']);
 Route::get('/admin', function () {
     return view('admin.dashboard');
 });
+
+Route::get('/', function () {
+    return view('welcome');
+});
+
+Route::resource('pelanggan', PelangganController::class);
+Route::resource('paket', PaketCateringController::class);
+Route::resource('menu', MenuMakananController::class);
