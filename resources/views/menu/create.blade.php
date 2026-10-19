@@ -1,115 +1,91 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Tambah Menu Makanan - Eliska Catering</title>
+@extends('layouts.app')
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-          rel="stylesheet">
-</head>
+@section('title', 'Tambah Menu Makanan - Eliska Catering')
 
-<body>
+@section('content')
+<h2>Tambah Menu Makanan</h2>
 
-<div class="container mt-5">
+<div class="card mt-3">
+    <div class="card-body">
 
-    <h2>Tambah Menu Makanan</h2>
+        <form action="{{ route('menu.store') }}" method="POST">
 
-    <div class="card mt-3">
-        <div class="card-body">
+            @csrf
 
-            @if($errors->any())
-                <div class="alert alert-danger">
-                    <strong>Terjadi kesalahan!</strong>
+            <div class="mb-3">
+                <label class="form-label">Nama Menu</label>
 
-                    <ul class="mb-0 mt-2">
-                        @foreach($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
+                <input type="text"
+                       name="nama_menu"
+                       class="form-control"
+                       value="{{ old('nama_menu') }}"
+                       placeholder="Contoh: Nasi Ayam Sehat">
 
-            <form action="{{ route('menu.store') }}" method="POST">
+            </div>
 
-                @csrf
+            <div class="mb-3">
+                <label class="form-label">Kategori</label>
 
-                <div class="mb-3">
-                    <label class="form-label">Nama Menu</label>
+                <select name="kategori" class="form-control">
 
-                    <input type="text"
-                           name="nama_menu"
-                           class="form-control"
-                           value="{{ old('nama_menu') }}"
-                           placeholder="Contoh: Nasi Ayam Sehat">
+                    <option value="">-- Pilih Kategori --</option>
 
-                </div>
+                    <option value="Makanan"
+                        {{ old('kategori') == 'Makanan' ? 'selected' : '' }}>
+                        Makanan
+                    </option>
 
-                <div class="mb-3">
-                    <label class="form-label">Kategori</label>
+                    <option value="Minuman"
+                        {{ old('kategori') == 'Minuman' ? 'selected' : '' }}>
+                        Minuman
+                    </option>
 
-                    <select name="kategori" class="form-control">
+                    <option value="Snack"
+                        {{ old('kategori') == 'Snack' ? 'selected' : '' }}>
+                        Snack
+                    </option>
 
-                        <option value="">-- Pilih Kategori --</option>
+                </select>
 
-                        <option value="Makanan"
-                            {{ old('kategori') == 'Makanan' ? 'selected' : '' }}>
-                            Makanan
-                        </option>
+            </div>
 
-                        <option value="Minuman"
-                            {{ old('kategori') == 'Minuman' ? 'selected' : '' }}>
-                            Minuman
-                        </option>
+            <div class="mb-3">
+                <label class="form-label">Harga</label>
 
-                        <option value="Snack"
-                            {{ old('kategori') == 'Snack' ? 'selected' : '' }}>
-                            Snack
-                        </option>
+                <input type="number"
+                       name="harga"
+                       class="form-control"
+                       value="{{ old('harga') }}"
+                       placeholder="Contoh: 25000">
 
-                    </select>
+            </div>
 
-                </div>
+            <div class="mb-3">
+                <label class="form-label">Deskripsi</label>
 
-                <div class="mb-3">
-                    <label class="form-label">Harga</label>
+                <textarea name="deskripsi"
+                          class="form-control"
+                          rows="4"
+                          placeholder="Masukkan deskripsi menu">{{ old('deskripsi') }}</textarea>
 
-                    <input type="number"
-                           name="harga"
-                           class="form-control"
-                           value="{{ old('harga') }}"
-                           placeholder="Contoh: 25000">
+            </div>
 
-                </div>
+            <button type="submit"
+                    class="btn btn-primary">
 
-                <div class="mb-3">
-                    <label class="form-label">Deskripsi</label>
+                Simpan
 
-                    <textarea name="deskripsi"
-                              class="form-control"
-                              rows="4"
-                              placeholder="Masukkan deskripsi menu">{{ old('deskripsi') }}</textarea>
+            </button>
 
-                </div>
+            <a href="{{ route('menu.index') }}"
+               class="btn btn-secondary">
 
-                <button type="submit"
-                        class="btn btn-primary">
+                Kembali
 
-                    Simpan
+            </a>
 
-                </button>
+        </form>
 
-                <a href="{{ route('menu.index') }}"
-                   class="btn btn-secondary">
-
-                    Kembali
-
-                </a>
-
-            </form>
-
-        </div>
     </div>
-
 </div>
-
-</body>
-</html>
+@endsection

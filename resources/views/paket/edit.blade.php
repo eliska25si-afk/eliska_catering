@@ -1,113 +1,85 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Edit Paket Catering - Eliska Catering</title>
+@extends('layouts.app')
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-          rel="stylesheet">
-</head>
+@section('title', 'Edit Paket Catering - Eliska Catering')
 
-<body>
+@section('content')
+<h2>Edit Paket Catering</h2>
 
-<div class="container mt-5">
+<div class="card mt-3">
+    <div class="card-body">
 
-    <h2>Edit Paket Catering</h2>
+        <form action="{{ route('paket.update', $paket) }}"
+              method="POST">
 
-    <div class="card mt-3">
-        <div class="card-body">
+            @csrf
 
-            @if($errors->any())
-                <div class="alert alert-danger">
+            @method('PUT')
 
-                    <strong>Terjadi kesalahan!</strong>
+            <div class="mb-3">
+                <label class="form-label">Nama Paket</label>
 
-                    <ul class="mb-0 mt-2">
+                <input type="text"
+                       name="nama_paket"
+                       class="form-control"
+                       value="{{ old('nama_paket', $paket->nama_paket) }}">
+            </div>
 
-                        @foreach($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
+            <div class="mb-3">
+                <label class="form-label">Jenis</label>
 
-                    </ul>
+                <select name="jenis" class="form-control">
 
-                </div>
-            @endif
+                    <option value="">
+                        -- Pilih Jenis --
+                    </option>
 
-            <form action="{{ route('paket.update', $paket) }}"
-                  method="POST">
+                    <option value="Harian"
+                        {{ old('jenis', $paket->jenis) == 'Harian' ? 'selected' : '' }}>
+                        Harian
+                    </option>
 
-                @csrf
+                    <option value="Mingguan"
+                        {{ old('jenis', $paket->jenis) == 'Mingguan' ? 'selected' : '' }}>
+                        Mingguan
+                    </option>
 
-                @method('PUT')
+                    <option value="Acara"
+                        {{ old('jenis', $paket->jenis) == 'Acara' ? 'selected' : '' }}>
+                        Acara
+                    </option>
 
-                <div class="mb-3">
-                    <label class="form-label">Nama Paket</label>
+                </select>
+            </div>
 
-                    <input type="text"
-                           name="nama_paket"
-                           class="form-control"
-                           value="{{ old('nama_paket', $paket->nama_paket) }}">
-                </div>
+            <div class="mb-3">
+                <label class="form-label">Harga</label>
 
-                <div class="mb-3">
-                    <label class="form-label">Jenis</label>
+                <input type="number"
+                       name="harga"
+                       class="form-control"
+                       value="{{ old('harga', $paket->harga) }}">
+            </div>
 
-                    <select name="jenis" class="form-control">
+            <div class="mb-3">
+                <label class="form-label">Deskripsi</label>
 
-                        <option value="">
-                            -- Pilih Jenis --
-                        </option>
+                <textarea name="deskripsi"
+                          class="form-control"
+                          rows="4">{{ old('deskripsi', $paket->deskripsi) }}</textarea>
+            </div>
 
-                        <option value="Harian"
-                            {{ old('jenis', $paket->jenis) == 'Harian' ? 'selected' : '' }}>
-                            Harian
-                        </option>
+            <button type="submit"
+                    class="btn btn-success">
+                Update
+            </button>
 
-                        <option value="Mingguan"
-                            {{ old('jenis', $paket->jenis) == 'Mingguan' ? 'selected' : '' }}>
-                            Mingguan
-                        </option>
+            <a href="{{ route('paket.index') }}"
+               class="btn btn-secondary">
+                Kembali
+            </a>
 
-                        <option value="Acara"
-                            {{ old('jenis', $paket->jenis) == 'Acara' ? 'selected' : '' }}>
-                            Acara
-                        </option>
+        </form>
 
-                    </select>
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label">Harga</label>
-
-                    <input type="number"
-                           name="harga"
-                           class="form-control"
-                           value="{{ old('harga', $paket->harga) }}">
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label">Deskripsi</label>
-
-                    <textarea name="deskripsi"
-                              class="form-control"
-                              rows="4">{{ old('deskripsi', $paket->deskripsi) }}</textarea>
-                </div>
-
-                <button type="submit"
-                        class="btn btn-success">
-                    Update
-                </button>
-
-                <a href="{{ route('paket.index') }}"
-                   class="btn btn-secondary">
-                    Kembali
-                </a>
-
-            </form>
-
-        </div>
     </div>
-
 </div>
-
-</body>
-</html>
+@endsection

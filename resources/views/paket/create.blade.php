@@ -1,111 +1,85 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Tambah Paket Catering - Eliska Catering</title>
+@extends('layouts.app')
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-          rel="stylesheet">
-</head>
+@section('title', 'Tambah Paket Catering - Eliska Catering')
 
-<body>
+@section('content')
+<h2>Tambah Paket Catering</h2>
 
-<div class="container mt-5">
+<div class="card mt-3">
+    <div class="card-body">
 
-    <h2>Tambah Paket Catering</h2>
+        <form action="{{ route('paket.store') }}" method="POST">
 
-    <div class="card mt-3">
-        <div class="card-body">
+            @csrf
 
-            @if($errors->any())
-                <div class="alert alert-danger">
+            <div class="mb-3">
+                <label class="form-label">Nama Paket</label>
 
-                    <strong>Terjadi kesalahan!</strong>
+                <input type="text"
+                       name="nama_paket"
+                       class="form-control"
+                       value="{{ old('nama_paket') }}"
+                       placeholder="Contoh: Paket Sehat Hemat">
+            </div>
 
-                    <ul class="mb-0 mt-2">
-                        @foreach($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
+            <div class="mb-3">
+                <label class="form-label">Jenis</label>
 
-                </div>
-            @endif
+                <select name="jenis" class="form-control">
 
-            <form action="{{ route('paket.store') }}" method="POST">
+                    <option value="">
+                        -- Pilih Jenis --
+                    </option>
 
-                @csrf
+                    <option value="Harian"
+                        {{ old('jenis') == 'Harian' ? 'selected' : '' }}>
+                        Harian
+                    </option>
 
-                <div class="mb-3">
-                    <label class="form-label">Nama Paket</label>
+                    <option value="Mingguan"
+                        {{ old('jenis') == 'Mingguan' ? 'selected' : '' }}>
+                        Mingguan
+                    </option>
 
-                    <input type="text"
-                           name="nama_paket"
-                           class="form-control"
-                           value="{{ old('nama_paket') }}"
-                           placeholder="Contoh: Paket Sehat Hemat">
-                </div>
+                    <option value="Acara"
+                        {{ old('jenis') == 'Acara' ? 'selected' : '' }}>
+                        Acara
+                    </option>
 
-                <div class="mb-3">
-                    <label class="form-label">Jenis</label>
+                </select>
+            </div>
 
-                    <select name="jenis" class="form-control">
+            <div class="mb-3">
+                <label class="form-label">Harga</label>
 
-                        <option value="">
-                            -- Pilih Jenis --
-                        </option>
+                <input type="number"
+                       name="harga"
+                       class="form-control"
+                       value="{{ old('harga') }}"
+                       placeholder="Contoh: 25000">
+            </div>
 
-                        <option value="Harian"
-                            {{ old('jenis') == 'Harian' ? 'selected' : '' }}>
-                            Harian
-                        </option>
+            <div class="mb-3">
+                <label class="form-label">Deskripsi</label>
 
-                        <option value="Mingguan"
-                            {{ old('jenis') == 'Mingguan' ? 'selected' : '' }}>
-                            Mingguan
-                        </option>
+                <textarea name="deskripsi"
+                          class="form-control"
+                          rows="4"
+                          placeholder="Masukkan deskripsi paket">{{ old('deskripsi') }}</textarea>
+            </div>
 
-                        <option value="Acara"
-                            {{ old('jenis') == 'Acara' ? 'selected' : '' }}>
-                            Acara
-                        </option>
+            <button type="submit"
+                    class="btn btn-primary">
+                Simpan
+            </button>
 
-                    </select>
-                </div>
+            <a href="{{ route('paket.index') }}"
+               class="btn btn-secondary">
+                Kembali
+            </a>
 
-                <div class="mb-3">
-                    <label class="form-label">Harga</label>
+        </form>
 
-                    <input type="number"
-                           name="harga"
-                           class="form-control"
-                           value="{{ old('harga') }}"
-                           placeholder="Contoh: 25000">
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label">Deskripsi</label>
-
-                    <textarea name="deskripsi"
-                              class="form-control"
-                              rows="4"
-                              placeholder="Masukkan deskripsi paket">{{ old('deskripsi') }}</textarea>
-                </div>
-
-                <button type="submit"
-                        class="btn btn-primary">
-                    Simpan
-                </button>
-
-                <a href="{{ route('paket.index') }}"
-                   class="btn btn-secondary">
-                    Kembali
-                </a>
-
-            </form>
-
-        </div>
     </div>
-
 </div>
-
-</body>
-</html>
+@endsection

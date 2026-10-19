@@ -1,101 +1,83 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Data Pelanggan - Eliska Catering</title>
+@extends('layouts.app')
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-          rel="stylesheet">
-</head>
+@section('title', 'Data Pelanggan - Eliska Catering')
 
-<body>
+@section('content')
+<h2>Data Pelanggan</h2>
 
-<div class="container mt-5">
+<a href="{{ route('pelanggan.create') }}"
+   class="btn btn-primary mb-3">
+    + Tambah Pelanggan
+</a>
 
-    <h2>Data Pelanggan</h2>
+<table class="table table-bordered">
 
-    @if(session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-    @endif
+    <thead>
+        <tr>
+            <th>No</th>
+            <th>Nama</th>
+            <th>Email</th>
+            <th>No HP</th>
+            <th>Alamat</th>
+            <th>Aksi</th>
+        </tr>
+    </thead>
 
-    <a href="{{ route('pelanggan.create') }}"
-       class="btn btn-primary mb-3">
-        + Tambah Pelanggan
-    </a>
+    <tbody>
 
-    <table class="table table-bordered">
+        @forelse($pelanggans as $pelanggan)
 
-        <thead>
-            <tr>
-                <th>No</th>
-                <th>Nama</th>
-                <th>Email</th>
-                <th>No HP</th>
-                <th>Alamat</th>
-                <th>Aksi</th>
-            </tr>
-        </thead>
+        <tr>
+            <td>{{ $loop->iteration }}</td>
 
-        <tbody>
+            <td>{{ $pelanggan->nama }}</td>
 
-            @forelse($pelanggans as $pelanggan)
+            <td>{{ $pelanggan->email }}</td>
 
-            <tr>
-                <td>{{ $loop->iteration }}</td>
+            <td>{{ $pelanggan->no_hp }}</td>
 
-                <td>{{ $pelanggan->nama }}</td>
+            <td>{{ $pelanggan->alamat }}</td>
 
-                <td>{{ $pelanggan->email }}</td>
+            <td>
 
-                <td>{{ $pelanggan->no_hp }}</td>
+                <a href="{{ route('pelanggan.edit', $pelanggan) }}"
+                   class="btn btn-warning btn-sm">
+                    Edit
+                </a>
 
-                <td>{{ $pelanggan->alamat }}</td>
+                <form action="{{ route('pelanggan.destroy', $pelanggan) }}"
+                      method="POST"
+                      class="d-inline">
 
-                <td>
+                    @csrf
 
-                    <a href="{{ route('pelanggan.edit', $pelanggan) }}"
-                       class="btn btn-warning btn-sm">
-                        Edit
-                    </a>
+                    @method('DELETE')
 
-                    <form action="{{ route('pelanggan.destroy', $pelanggan) }}"
-                          method="POST"
-                          class="d-inline">
+                    <button type="submit"
+                            class="btn btn-danger btn-sm"
+                            onclick="return confirm('Yakin ingin menghapus data?')">
 
-                        @csrf
+                        Hapus
 
-                        @method('DELETE')
+                    </button>
 
-                        <button type="submit"
-                                class="btn btn-danger btn-sm"
-                                onclick="return confirm('Yakin ingin menghapus data?')">
+                </form>
 
-                            Hapus
+            </td>
 
-                        </button>
+        </tr>
 
-                    </form>
+        @empty
 
-                </td>
+        <tr>
+            <td colspan="6" class="text-center">
+                Belum ada data pelanggan.
+            </td>
+        </tr>
 
-            </tr>
+        @endforelse
 
-            @empty
+    </tbody>
 
-            <tr>
-                <td colspan="6" class="text-center">
-                    Belum ada data pelanggan.
-                </td>
-            </tr>
-
-            @endforelse
-
-        </tbody>
-
-    </table>
-
-</div>
-
-</body>
-</html>
+</table>
+@endsection

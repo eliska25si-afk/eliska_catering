@@ -1,74 +1,53 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Edit Pelanggan</title>
+@extends('layouts.app')
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
+@section('title', 'Edit Pelanggan')
 
-<body>
+@section('content')
+<h2>Edit Pelanggan</h2>
 
-<div class="container mt-5">
+<form action="{{ route('pelanggan.update', $pelanggan) }}" method="POST">
 
-    <h2>Edit Pelanggan</h2>
+    @csrf
+    @method('PUT')
 
-    @if($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
+    <div class="mb-3">
+        <label>Nama</label>
+        <input type="text"
+               name="nama"
+               class="form-control"
+               value="{{ old('nama', $pelanggan->nama) }}">
+    </div>
 
-    <form action="{{ route('pelanggan.update', $pelanggan) }}" method="POST">
+    <div class="mb-3">
+        <label>Email</label>
+        <input type="email"
+               name="email"
+               class="form-control"
+               value="{{ old('email', $pelanggan->email) }}">
+    </div>
 
-        @csrf
-        @method('PUT')
+    <div class="mb-3">
+        <label>No HP</label>
+        <input type="text"
+               name="no_hp"
+               class="form-control"
+               value="{{ old('no_hp', $pelanggan->no_hp) }}">
+    </div>
 
-        <div class="mb-3">
-            <label>Nama</label>
-            <input type="text"
-                   name="nama"
-                   class="form-control"
-                   value="{{ old('nama', $pelanggan->nama) }}">
-        </div>
+    <div class="mb-3">
+        <label>Alamat</label>
+        <textarea name="alamat"
+                  class="form-control">{{ old('alamat', $pelanggan->alamat) }}</textarea>
+    </div>
 
-        <div class="mb-3">
-            <label>Email</label>
-            <input type="email"
-                   name="email"
-                   class="form-control"
-                   value="{{ old('email', $pelanggan->email) }}">
-        </div>
+    <button type="submit" class="btn btn-success">
+        Update
+    </button>
 
-        <div class="mb-3">
-            <label>No HP</label>
-            <input type="text"
-                   name="no_hp"
-                   class="form-control"
-                   value="{{ old('no_hp', $pelanggan->no_hp) }}">
-        </div>
+    <a href="{{ route('pelanggan.index') }}"
+       class="btn btn-secondary">
+        Kembali
+    </a>
 
-        <div class="mb-3">
-            <label>Alamat</label>
-            <textarea name="alamat"
-                      class="form-control">{{ old('alamat', $pelanggan->alamat) }}</textarea>
-        </div>
-
-        <button type="submit" class="btn btn-success">
-            Update
-        </button>
-
-        <a href="{{ route('pelanggan.index') }}"
-           class="btn btn-secondary">
-            Kembali
-        </a>
-
-    </form>
-
-</div>
-
-</body>
-</html>
+</form>
+@endsection

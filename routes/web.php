@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PelangganController;
 use App\Http\Controllers\PaketCateringController;
 use App\Http\Controllers\MenuMakananController;
+use App\Http\Controllers\UserController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -56,3 +57,4 @@ Route::get('/', function () {
 Route::resource('pelanggan', PelangganController::class);
 Route::resource('paket', PaketCateringController::class);
 Route::resource('menu', MenuMakananController::class);
+Route::resource('users', UserController::class)->except('show');

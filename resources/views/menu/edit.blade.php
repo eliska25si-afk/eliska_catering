@@ -1,136 +1,106 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Edit Menu Makanan - Eliska Catering</title>
+@extends('layouts.app')
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-          rel="stylesheet">
-</head>
+@section('title', 'Edit Menu Makanan - Eliska Catering')
 
-<body>
+@section('content')
+<h2>Edit Menu Makanan</h2>
 
-<div class="container mt-5">
+<div class="card mt-3">
+    <div class="card-body">
 
-    <h2>Edit Menu Makanan</h2>
+        <form action="{{ route('menu.update', $menu) }}"
+              method="POST">
 
-    <div class="card mt-3">
-        <div class="card-body">
+            @csrf
 
-            @if($errors->any())
-                <div class="alert alert-danger">
+            @method('PUT')
 
-                    <strong>Terjadi kesalahan!</strong>
+            <div class="mb-3">
 
-                    <ul class="mb-0 mt-2">
+                <label class="form-label">
+                    Nama Menu
+                </label>
 
-                        @foreach($errors->all() as $error)
+                <input type="text"
+                       name="nama_menu"
+                       class="form-control"
+                       value="{{ old('nama_menu', $menu->nama_menu) }}">
 
-                            <li>{{ $error }}</li>
+            </div>
 
-                        @endforeach
+            <div class="mb-3">
 
-                    </ul>
+                <label class="form-label">
+                    Kategori
+                </label>
 
-                </div>
-            @endif
+                <select name="kategori"
+                        class="form-control">
 
-            <form action="{{ route('menu.update', $menu) }}"
-                  method="POST">
+                    <option value="">
+                        -- Pilih Kategori --
+                    </option>
 
-                @csrf
+                    <option value="Makanan"
+                        {{ old('kategori', $menu->kategori) == 'Makanan' ? 'selected' : '' }}>
+                        Makanan
+                    </option>
 
-                @method('PUT')
+                    <option value="Minuman"
+                        {{ old('kategori', $menu->kategori) == 'Minuman' ? 'selected' : '' }}>
+                        Minuman
+                    </option>
 
-                <div class="mb-3">
+                    <option value="Snack"
+                        {{ old('kategori', $menu->kategori) == 'Snack' ? 'selected' : '' }}>
+                        Snack
+                    </option>
 
-                    <label class="form-label">
-                        Nama Menu
-                    </label>
+                </select>
 
-                    <input type="text"
-                           name="nama_menu"
-                           class="form-control"
-                           value="{{ old('nama_menu', $menu->nama_menu) }}">
+            </div>
 
-                </div>
+            <div class="mb-3">
 
-                <div class="mb-3">
+                <label class="form-label">
+                    Harga
+                </label>
 
-                    <label class="form-label">
-                        Kategori
-                    </label>
+                <input type="number"
+                       name="harga"
+                       class="form-control"
+                       value="{{ old('harga', $menu->harga) }}">
 
-                    <select name="kategori"
-                            class="form-control">
+            </div>
 
-                        <option value="">
-                            -- Pilih Kategori --
-                        </option>
+            <div class="mb-3">
 
-                        <option value="Makanan"
-                            {{ old('kategori', $menu->kategori) == 'Makanan' ? 'selected' : '' }}>
-                            Makanan
-                        </option>
+                <label class="form-label">
+                    Deskripsi
+                </label>
 
-                        <option value="Minuman"
-                            {{ old('kategori', $menu->kategori) == 'Minuman' ? 'selected' : '' }}>
-                            Minuman
-                        </option>
+                <textarea name="deskripsi"
+                          class="form-control"
+                          rows="4">{{ old('deskripsi', $menu->deskripsi) }}</textarea>
 
-                        <option value="Snack"
-                            {{ old('kategori', $menu->kategori) == 'Snack' ? 'selected' : '' }}>
-                            Snack
-                        </option>
+            </div>
 
-                    </select>
+            <button type="submit"
+                    class="btn btn-success">
 
-                </div>
+                Update
 
-                <div class="mb-3">
+            </button>
 
-                    <label class="form-label">
-                        Harga
-                    </label>
+            <a href="{{ route('menu.index') }}"
+               class="btn btn-secondary">
 
-                    <input type="number"
-                           name="harga"
-                           class="form-control"
-                           value="{{ old('harga', $menu->harga) }}">
+                Kembali
 
-                </div>
+            </a>
 
-                <div class="mb-3">
+        </form>
 
-                    <label class="form-label">
-                        Deskripsi
-                    </label>
-
-                    <textarea name="deskripsi"
-                              class="form-control"
-                              rows="4">{{ old('deskripsi', $menu->deskripsi) }}</textarea>
-
-                </div>
-
-                <button type="submit"
-                        class="btn btn-success">
-
-                    Update
-
-                </button>
-
-                <a href="{{ route('menu.index') }}"
-                   class="btn btn-secondary">
-
-                    Kembali
-
-                </a>
-
-            </form>
-
-        </div>
     </div>
-
 </div>
-
-</body>
-</html>
+@endsection
