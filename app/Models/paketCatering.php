@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class PaketCatering extends Model
 {
@@ -12,4 +13,10 @@ class PaketCatering extends Model
         'harga',
         'deskripsi'
     ];
+
+    public function pesanans(): HasMany
+    {
+        return $this->hasMany(Pesanan::class, 'paket_catering_id');
+    }
 }
+

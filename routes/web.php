@@ -5,6 +5,8 @@ use App\Http\Controllers\PelangganController;
 use App\Http\Controllers\PaketCateringController;
 use App\Http\Controllers\MenuMakananController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\PesananController;
+use App\Http\Controllers\LaporanController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -58,3 +60,5 @@ Route::resource('pelanggan', PelangganController::class);
 Route::resource('paket', PaketCateringController::class);
 Route::resource('menu', MenuMakananController::class);
 Route::resource('users', UserController::class)->except('show');
+Route::resource('pesanan', PesananController::class)->except('show');
+Route::get('laporan', [LaporanController::class, 'index'])->name('laporan.index');
