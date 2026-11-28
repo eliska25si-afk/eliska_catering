@@ -6,6 +6,9 @@ use App\Models\PaketCatering;
 use App\Models\Pelanggan;
 use App\Models\Pesanan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\StatusPesananMail;
 use Illuminate\Validation\Rule;
 
 /**
@@ -63,11 +66,30 @@ class PesananController extends Controller
         $paket = PaketCatering::findOrFail($validated['paket_catering_id']);
         $validated['total_harga'] = $paket->harga * $validated['jumlah_porsi'];
 
+        $statusLama = $pesanan->status;
+
         $pesanan->update($validated);
+
+        // EMAIL #2 (kondisi custom): kirim email ke pelanggan HANYA jika status pesanan berubah
+        $pesan = 'Pesanan berhasil diperbarui.';
+
+        if ($pesanan->wasChanged('status')) {
+            try {
+                $pesanan->load(['pelanggan', 'paket']);
+
+                Mail::to($pesanan->pelanggan->email)
+                    ->send(new StatusPesananMail($pesanan, $statusLama));
+
+                $pesan .= ' Email pemberitahuan status dikirim ke ' . $pesanan->pelanggan->email . '.';
+            } catch (\Throwable $e) {
+                Log::error('Gagal kirim email status pesanan: ' . $e->getMessage());
+                $pesan .= ' (Email pemberitahuan gagal dikirim.)';
+            }
+        }
 
         return redirect()
             ->route('pesanan.index')
-            ->with('success', 'Pesanan berhasil diperbarui.');
+            ->with('success', $pesan);
     }
 
     public function destroy(Pesanan $pesanan)

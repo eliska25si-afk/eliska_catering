@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Password;
+use App\Mail\RegistrasiMail;
 
 class AuthController extends Controller
 {
@@ -59,12 +63,23 @@ class AuthController extends Controller
             'role'     => User::ROLE_PELANGGAN,
         ]);
 
+        // EMAIL #1: kirim link reset password saat registrasi
+        try {
+            $token    = Password::broker()->createToken($user);
+            $resetUrl = route('password.reset', ['token' => $token, 'email' => $user->email]);
+
+            Mail::to($user->email)->send(new RegistrasiMail($user, $resetUrl));
+        } catch (\Throwable $e) {
+            // registrasi tetap berhasil walaupun email gagal terkirim
+            Log::error('Gagal kirim email registrasi: ' . $e->getMessage());
+        }
+
         Auth::login($user);
         $request->session()->regenerate();
 
         return redirect()
             ->route('dashboard')
-            ->with('success', 'Registrasi berhasil. Anda terdaftar sebagai Pelanggan.');
+            ->with('success', 'Registrasi berhasil. Link reset password sudah dikirim ke email Anda.');
     }
 
     /* ---------- LOGOUT ---------- */
